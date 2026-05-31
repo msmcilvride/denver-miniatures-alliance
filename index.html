@@ -135,6 +135,30 @@
 
     header .hero-btn { margin-top: 1.75rem; }
 
+    /* ── Lightbox ── */
+    .photo-slot img { cursor: zoom-in; }
+
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      cursor: zoom-out;
+    }
+
+    #lightbox.open { display: flex; }
+
+    #lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    }
+
     /* ── Footer ── */
     footer {
       background: #1a1a1a;
@@ -188,6 +212,12 @@
         <div class="photo-slot">
           <img src="images/xenos-rampant-1.jpg" alt="Xenos Rampant game in progress" />
         </div>
+        <div class="photo-slot">
+          <img src="images/rangers-1.jpg" alt="Rangers of Shadow Deep game in progress" />
+        </div>
+        <div class="photo-slot">
+          <img src="images/frostgrave-2.jpg" alt="Frostgrave game in progress" />
+        </div>
       </div>
     </section>
 
@@ -205,9 +235,30 @@
 
   </main>
 
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+
   <footer>
     &copy; 2026 Denver Miniatures Alliance
   </footer>
 
+  <script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    document.querySelectorAll('.photo-slot img').forEach(img => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('open');
+      });
+    });
+
+    lightbox.addEventListener('click', () => lightbox.classList.remove('open'));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') lightbox.classList.remove('open');
+    });
+  </script>
 </body>
 </html>
